@@ -1,5 +1,4 @@
-"use strict";
-const http = require('./http');
-const database = require('./database');
+const httpMiddlewares = require('./http');
+const databaseMiddlewares = require('./database');
 
-module.exports = { http, database };
+module.exports = { httpMiddlewares, databaseMiddlewares };

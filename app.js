@@ -1,5 +1,12 @@
 
-require('dotenv').config()
-const server = require('./src');
+require('dotenv').config();
+const Server = require('./src');
 
-module.exports = server;
+exports.init = (cb) => {
+  Server().then(() => {
+    console.log("Server Up and Running!");
+  }).catch( (e) => {
+    console.log(`Server had trouble when starting: ${e.message}`);
+    cb(e);
+  });
+};

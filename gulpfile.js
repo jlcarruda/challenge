@@ -1,18 +1,20 @@
-"use strict";
+const { src } = require('gulp');
+const jshint = require('gulp-jshint');
+const stylish = require('jshint-stylish');
+const app = require('./app');
+const pkg = require('./package');
 
-const gulp = require('gulp');
-const jslint = require('gulp-jslint');
+exports.lint = function() {
+  'use strict';
 
-gulp.task('lint', function() {
-  return gulp.src(['gulpfile.js', 'app.js', 'src/**/*.js'])
-    .pipe(jslint({
-      node: true,
-      es6: true,
-      white: true
-    }))
-    .pipe(jslint.reporter('lint', true));
-});
+  return src(['gulpfile.js', 'app.js', 'src/**/*.js'])
+    .pipe(jshint(pkg.jshintConfig))
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'));
+};
 
-gulp.task('build', function() {
-  return gulp.src(['app.js'])
-})
+exports.build = function(cb) {
+  'use strict';
+
+  app.init(cb);
+};

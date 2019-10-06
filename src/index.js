@@ -6,7 +6,7 @@ const { httpMiddlewares, databaseMiddlewares } = require('./middlewares');
 const app = express();
 const router = express.Router();
 
-module.exports = function() {
+module.exports = function(cb) {
   'use strict';
 
   return database.connect().then(() => {
@@ -16,8 +16,6 @@ module.exports = function() {
     app.use(httpMiddlewares.configCors);
     app.use(databaseMiddlewares.setDatabaseConnection);
 
-    app.listen(3000, function() {
-      console.log("Listening on port 3000");
-    });
+    app.listen(3000, cb);
   });
 };

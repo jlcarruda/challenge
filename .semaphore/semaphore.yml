@@ -46,7 +46,6 @@ blocks:
     skip:
       when: branch != 'master'
     task:
-      prologue:
       jobs:
         - name: Deploy
           commands:

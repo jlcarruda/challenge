@@ -21,10 +21,11 @@ blocks:
       prologue:
         commands:
           - checkout
+          - npm install
       jobs:
         - name: npm install
           commands:
-            - npm install
+            - echo "TEST COMPLETED"
     dependencies:
       - Lint
   - name: Build
@@ -34,10 +35,10 @@ blocks:
       prologue:
         commands:
           - checkout
+          - npm install
       jobs:
         - name: build
           commands:
-            - npm install
             - node node_modules/gulp/bin/gulp build
   - name: Deploy
     dependencies:
@@ -45,6 +46,8 @@ blocks:
     skip:
       when: branch != 'master'
     task:
+      prologue:
       jobs:
         - name: Deploy
-          commands: []
+          commands:
+            - git push heroku $SEMAPHORE_GIT_BRANCH:master

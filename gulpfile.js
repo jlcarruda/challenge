@@ -16,5 +16,5 @@ exports.lint = function() {
 exports.build = function(cb) {
   'use strict';
 
-  app.init(cb);
+  return app.init(cb);
 };

@@ -1,20 +1,23 @@
-'use strict';
 const bodyParser = require('body-parser');
 const express = require('express');
-const { http } = require('./middlewares');
+const database = require('./database');
+const { httpMiddlewares, databaseMiddlewares } = require('./middlewares');
 
 const app = express();
 const router = express.Router();
 
-
 module.exports = function() {
+  'use strict';
 
-  app.use(bodyParser.json());
-  app.use('/', router);
+  return database.connect().then(() => {
+    app.use(bodyParser.json());
+    app.use('/', router);
 
-  app.use(http.configCors);
+    app.use(httpMiddlewares.configCors);
+    app.use(databaseMiddlewares.setDatabaseConnection);
 
-  app.listen(3000, function() {
-    console.log("Listening on port 3000");
+    app.listen(3000, function() {
+      console.log("Listening on port 3000");
+    });
   });
 };

@@ -11,19 +11,25 @@
   },
   "author": "",
   "license": "ISC",
+  "jshintConfig": {
+    "esversion": 8,
+    "unused": true
+  },
   "devDependencies": {
     "dotenv": "^8.1.0",
-    "express": "^4.17.1",
-    "gulp": "^4.0.2",
-    "jslint-node": "^1.2.8"
+    "express": "^4.17.1"
   },
   "dependencies": {
+    "gulp": "^4.0.2",
     "async": "^3.1.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "connect-mongo": "^3.0.0",
     "express-session": "^1.16.2",
+    "gulp-jshint": "^2.1.0",
     "gulp-jslint": "^1.0.10",
+    "jshint": "^2.10.2",
+    "jshint-stylish": "^2.2.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.7.3"
   }

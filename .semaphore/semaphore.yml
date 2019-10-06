@@ -13,6 +13,7 @@ blocks:
       jobs:
         - name: make lint
           commands:
+            - npm install
             - node node_modules/gulp/bin/gulp lint
     dependencies: []
   - name: Unit tests

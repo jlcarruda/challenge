@@ -16,5 +16,8 @@ exports.lint = function() {
 exports.build = function(cb) {
   'use strict';
 
-  return app.init(cb);
+  return app.init(() => {
+    cb();
+    if (process.env.SEMAPHORE != undefined) process.exit();
+  });
 };

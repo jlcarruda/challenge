@@ -1,0 +1,48 @@
+version: v1.0
+name: First pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Lint
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: make lint
+          commands:
+            - node node_modules/gulp/bin/gulp lint
+    dependencies: []
+  - name: Unit tests
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: npm install
+          commands:
+            - npm install
+    dependencies:
+      - Lint
+  - name: Build
+    dependencies:
+      - Unit tests
+    task:
+      jobs:
+        - name: npm install
+          commands:
+            - npm install
+        - name: build
+          commands:
+            - node node_modules/gulp/bin/gulp build
+  - name: Deploy
+    dependencies:
+      - Build
+    skip:
+      when: branch != 'master'
+    task:
+      jobs:
+        - name: Deploy
+          commands: []

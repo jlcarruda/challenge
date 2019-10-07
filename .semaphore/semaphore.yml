@@ -47,7 +47,10 @@ blocks:
       when: branch != 'master'
     task:
       prologue:
-        - git pull origin master
+        commands:
+          - git fetch --all
+          - git pull origin master
+          - checkout
       jobs:
         - name: Deploy
           commands:

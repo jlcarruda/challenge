@@ -40,13 +40,27 @@ blocks:
         - name: build
           commands:
             - node node_modules/gulp/bin/gulp build
-  - name: Deploy
+  - name: Deploy to Heroku
     dependencies:
       - Build
     skip:
       when: branch != 'master'
     task:
+      secrets:
+        - name: concrete-challenge-heroku
+      env_vars:
+        - name: HEROKU_REMOTE
+          value: https://git.heroku.com/concrete-challenge-node.git
       jobs:
-        - name: Deploy
+        - name: Deploy Code
           commands:
-            - git push heroku $SEMAPHORE_GIT_BRANCH:master
+            - checkout --use-cache
+            - ssh-keyscan -H heroku.com >> ~/.ssh/known_hosts
+            - chmod 600 ~/.ssh/id_rsa_semaphore_heroku
+            - ssh-add ~/.ssh/id_rsa_semaphore_heroku
+            - git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
+            - git remote add heroku $HEROKU_REMOTE
+            - git push heroku -f $SEMAPHORE_GIT_BRANCH:master
+# promotions:
+#   - name: Deploy to heroku
+#     pipeline_file: heroku.yml

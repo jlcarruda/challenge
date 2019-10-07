@@ -40,18 +40,21 @@ blocks:
         - name: build
           commands:
             - node node_modules/gulp/bin/gulp build
-  - name: Deploy
-    dependencies:
-      - Build
-    skip:
-      when: branch != 'master'
-    task:
-      prologue:
-        commands:
-          - git fetch --all
-          - git pull origin master
-          - checkout
-      jobs:
-        - name: Deploy
-          commands:
-            - git push heroku $SEMAPHORE_GIT_BRANCH:master
+  # - name: Deploy
+  #   dependencies:
+  #     - Build
+  #   skip:
+  #     when: branch != 'master'
+  #   task:
+  #     prologue:
+  #       commands:
+  #         - git fetch --all
+  #         - git pull origin master
+  #         - checkout
+  #     jobs:
+  #       - name: Deploy
+  #         commands:
+  #           - git push heroku $SEMAPHORE_GIT_BRANCH:master
+promotions:
+  - name: Deploy to heroku
+    pipeline_file: heroku.yml

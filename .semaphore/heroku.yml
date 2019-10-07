@@ -19,6 +19,7 @@ blocks:
             - checkout --use-cache
             - ssh-keyscan -H heroku.com >> ~/.ssh/known_hosts
             - chmod 600 ~/.ssh/id_rsa_semaphore_heroku
-            - git config --global url.ssh://git@heroku/com/.insteadOf https://git.heroku.com/
+            - ssh-add ~/.ssh/id_rsa_semaphore_heroku
+            - git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
             - git remote add heroku $HEROKU_REMOTE
             - git push heroku -f $SEMAPHORE_GIT_BRANCH:master

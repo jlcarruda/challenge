@@ -15,10 +15,6 @@ module.exports.connect = () => {
       reject(err);
     });
 
-    conn.once('open', () => {
-      console.log('Database Connected...');
-
-      resolve();
-    });
+    conn.once('open', resolve);
   });
 };

@@ -13,6 +13,7 @@ blocks:
       jobs:
         - name: make lint
           commands:
+            - npm install
             - node node_modules/gulp/bin/gulp lint
     dependencies: []
   - name: Unit tests
@@ -20,20 +21,22 @@ blocks:
       prologue:
         commands:
           - checkout
+          - npm install
       jobs:
         - name: npm install
           commands:
-            - npm install
+            - echo "TEST COMPLETED"
     dependencies:
       - Lint
   - name: Build
     dependencies:
       - Unit tests
     task:
+      prologue:
+        commands:
+          - checkout
+          - npm install
       jobs:
-        - name: npm install
-          commands:
-            - npm install
         - name: build
           commands:
             - node node_modules/gulp/bin/gulp build
@@ -45,4 +48,5 @@ blocks:
     task:
       jobs:
         - name: Deploy
-          commands: []
+          commands:
+            - git push heroku $SEMAPHORE_GIT_BRANCH:master

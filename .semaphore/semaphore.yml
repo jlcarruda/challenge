@@ -46,6 +46,8 @@ blocks:
     skip:
       when: branch != 'master'
     task:
+      prologue:
+        - git pull origin master
       jobs:
         - name: Deploy
           commands:

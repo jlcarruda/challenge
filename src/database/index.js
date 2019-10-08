@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const path = require('path');
 
 module.exports.connect = () => {
   "use strict";

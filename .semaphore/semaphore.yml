@@ -30,7 +30,7 @@ blocks:
       - Lint
   - name: Build
     dependencies:
-      - Unit tests
+      - Tests
     task:
       prologue:
         commands:

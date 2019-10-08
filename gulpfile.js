@@ -1,5 +1,6 @@
 const { src } = require('gulp');
 const jshint = require('gulp-jshint');
+const jest = require('gulp-jest').default;
 const stylish = require('jshint-stylish');
 const app = require('./app');
 const pkg = require('./package');
@@ -11,6 +12,11 @@ exports.lint = () => {
     .pipe(jshint(pkg.jshintConfig))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'));
+};
+
+exports.test = () => {
+  return src('tests/**/*.test.js')
+    .pipe(jest(pkg.jest));
 };
 
 exports.build = (cb) => {

@@ -4,7 +4,7 @@ const stylish = require('jshint-stylish');
 const app = require('./app');
 const pkg = require('./package');
 
-exports.lint = function() {
+exports.lint = () => {
   'use strict';
 
   return src(['gulpfile.js', 'app.js', 'src/**/*.js'])
@@ -13,7 +13,7 @@ exports.lint = function() {
     .pipe(jshint.reporter('fail'));
 };
 
-exports.build = function(cb) {
+exports.build = (cb) => {
   'use strict';
 
   return app.init((error) => {

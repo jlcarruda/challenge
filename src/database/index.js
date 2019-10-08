@@ -1,12 +1,12 @@
-
 const mongoose = require('mongoose');
 
 module.exports.connect = () => {
   "use strict";
 
   return new Promise((resolve, reject) => {
+    const databaseUri = getMongoUri();
     mongoose.Promise = Promise;
-    mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(databaseUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     const conn = mongoose.connection;
 
@@ -18,3 +18,14 @@ module.exports.connect = () => {
     conn.once('open', resolve);
   });
 };
+
+function getMongoUri() {
+  switch(process.env.NODE_ENV) {
+    case 'production':
+      return process.env.MONGODB_URI;
+    case 'test':
+      return process.env.MONGOLAB_TEAL_URI;
+    default:
+      return process.env.MONGOLAB_ONYX_URI;
+  }
+}

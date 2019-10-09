@@ -28,8 +28,8 @@ module.exports = (() => {
   passport.use(strategy);
 
   return {
-    initialize: () => { return passport.initialize() },
-    authenticate: () => { return passport.authenticate('jwt', { session: false }) }
+    initialize: () => { return passport.initialize(); },
+    authenticate: () => { return passport.authenticate('jwt', { session: false }); }
   };
 })();
 

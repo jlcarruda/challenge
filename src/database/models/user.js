@@ -18,4 +18,24 @@ const UserSchema = new Schema({
   ultimo_login: { type: Date, default: Date.now },
 }, { timestamps: true });
 
+
+UserSchema.pre('save', next => {
+  this.ultimo_login = Date.now;
+
+  if (this.isModified('senha')) {
+    bcrypt.hash(this.senha, process.env.BCRYPT_SALT_ROUNDS, (err, hash) => {
+      if (err) return next(err);
+
+      this.senha = hash;
+      next();
+    });
+  }
+});
+
+UserSchema.methods.comparePassword = passwordCandidate => {
+  bcrypt.compare(passwordCandidate || '', this.senha, (err, res) => {
+    if (res) return true;
+  });
+};
+
 module.exports = mongoose.models.User || mongoose.model('User', UserSchema);

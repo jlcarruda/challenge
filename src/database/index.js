@@ -1,31 +1,38 @@
+const { MongoMemoryServer } =  require('mongodb-memory-server');
 const mongoose = require('mongoose');
 
 module.exports.connect = () => {
   "use strict";
 
   return new Promise((resolve, reject) => {
-    const databaseUri = getMongoUri();
-    mongoose.Promise = Promise;
-    mongoose.connect(databaseUri, { useNewUrlParser: true, useUnifiedTopology: true });
+    getMongoUri().then((uri) => {
+      mongoose.Promise = Promise;
+      mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-    const conn = mongoose.connection;
+      const conn = mongoose.connection;
 
-    conn.on('error', err => {
-      console.error.bind(console, `connection error: ${err.message}`);
-      reject(err);
+      conn.on('error', err => {
+        console.error.bind(console, `DAtabase connection error: ${err.message}`);
+        reject(err);
+      });
+
+      conn.once('open', resolve);
     });
-
-    conn.once('open', resolve);
   });
 };
 
 function getMongoUri() {
-  switch(process.env.NODE_ENV) {
-    case 'production':
-      return process.env.MONGODB_URI;
-    case 'test':
-      return process.env.MONGOLAB_TEAL_URI;
-    default:
-      return process.env.MONGOLAB_ONYX_URI;
-  }
+  return new Promise((resolve, reject) => {
+    switch(process.env.NODE_ENV) {
+      case 'production':
+        resolve(process.env.MONGODB_URI);
+        break;
+      default:
+        new MongoMemoryServer().getConnectionString().then((uri) => {
+          resolve(uri);
+        }).catch(e => {
+          reject(e);
+        });
+    }
+  });
 }

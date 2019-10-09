@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "gulp lint",
     "test": "jest --detectOpenHandles --forceExit --env node --verbose tests",
-    "build": "gulp build"
+    "testBuild": "gulp build"
   },
   "author": "",
   "license": "ISC",

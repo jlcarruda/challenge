@@ -12,7 +12,7 @@ module.exports.connect = () => {
       const conn = mongoose.connection;
 
       conn.on('error', err => {
-        console.error.bind(console, `DAtabase connection error: ${err.message}`);
+        console.error.bind(console, `Database connection error: ${err.message}`);
         reject(err);
       });
 
@@ -28,11 +28,23 @@ function getMongoUri() {
         resolve(process.env.MONGODB_URI);
         break;
       default:
-        new MongoMemoryServer().getConnectionString().then((uri) => {
+       startMemoryDatabase().getConnectionString().then((uri) => {
           resolve(uri);
         }).catch(e => {
           reject(e);
         });
     }
   });
+}
+
+function startMemoryDatabase() {
+  return new MongoMemoryServer({
+    dbName: (process.env.NODE_ENV === 'development') ? 'dev' : 'test'
+  });
+}
+
+module.exports.getMongoUri = getMongoUri;
+
+if (process.env.NODE_ENV === 'test') {
+  module.exports.startMemoryDatabase = startMemoryDatabase;
 }

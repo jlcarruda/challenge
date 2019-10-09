@@ -13,19 +13,22 @@ blocks:
       jobs:
         - name: make lint
           commands:
-            - npm install
+            - yarn
             - node node_modules/gulp/bin/gulp lint
     dependencies: []
   - name: Tests
     task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
       prologue:
         commands:
           - checkout
-          - npm install
+          - yarn
       jobs:
-        - name: npm install
+        - name: run tests
           commands:
-            - node node_modules/gulp/bin/gulp test
+            - yarn test
     dependencies:
       - Lint
   - name: Build
@@ -35,7 +38,7 @@ blocks:
       prologue:
         commands:
           - checkout
-          - npm install
+          - yarn
       jobs:
         - name: build
           commands:

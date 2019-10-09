@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
 const PhoneSchema = new Schema({
@@ -19,23 +19,19 @@ const UserSchema = new Schema({
 }, { timestamps: true });
 
 
-UserSchema.pre('save', next => {
-  this.ultimo_login = Date.now;
+UserSchema.pre('save', function(next) {
+  if (!this.isModified('senha')) return next();
 
-  if (this.isModified('senha')) {
-    bcrypt.hash(this.senha, process.env.BCRYPT_SALT_ROUNDS, (err, hash) => {
-      if (err) return next(err);
+  bcrypt.hash(this.senha, 10, (err, hash) => {
+    if (err) return next(err);
 
-      this.senha = hash;
-      next();
-    });
-  }
+    this.senha = hash;
+    next();
+  });
 });
 
-UserSchema.methods.comparePassword = passwordCandidate => {
-  bcrypt.compare(passwordCandidate || '', this.senha, (err, res) => {
-    if (res) return true;
-  });
+UserSchema.methods.comparePassword = async function(passwordCandidate) {
+  return await bcrypt.compare(passwordCandidate || '', this.senha);
 };
 
 module.exports = mongoose.models.User || mongoose.model('User', UserSchema);

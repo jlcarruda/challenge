@@ -13,7 +13,7 @@ exports.lint = () => {
     .pipe(jshint.reporter('fail'));
 };
 
-exports.build = (cb) => {
+exports.run = (cb) => {
   'use strict';
 
   return app.init((error) => {

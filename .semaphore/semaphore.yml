@@ -1,5 +1,5 @@
 version: v1.0
-name: First pipeline
+name: Deploy Pipeline
 agent:
   machine:
     type: e1-standard-2
@@ -17,7 +17,7 @@ blocks:
           commands:
             - yarn lint
     dependencies: []
-  - name: Tests
+  - name: Unit Tests
     task:
       env_vars:
         - name: NODE_ENV
@@ -33,9 +33,9 @@ blocks:
             - yarn test
     dependencies:
       - Lint
-  - name: Build
+  - name: Run Server Test
     dependencies:
-      - Tests
+      - Unit Tests
     task:
       prologue:
         commands:
@@ -45,10 +45,10 @@ blocks:
       jobs:
         - name: build
           commands:
-            - yarn testBuild
+            - yarn run_server
   - name: Deploy to Heroku
     dependencies:
-      - Build
+      - Run Server Test
     skip:
       when: branch != 'master'
     task:

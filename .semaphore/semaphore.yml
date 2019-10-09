@@ -9,6 +9,7 @@ blocks:
     task:
       prologue:
         commands:
+          - nvm use 10.10.0
           - checkout
       jobs:
         - name: make lint
@@ -23,6 +24,7 @@ blocks:
           value: test
       prologue:
         commands:
+          - nvm use 10.10.0
           - checkout
           - yarn
       jobs:
@@ -37,6 +39,7 @@ blocks:
     task:
       prologue:
         commands:
+          - nvm use 10.10.0
           - checkout
           - yarn
       jobs:

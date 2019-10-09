@@ -45,7 +45,7 @@ blocks:
       jobs:
         - name: build
           commands:
-            - yarn build
+            - yarn testBuild
   - name: Deploy to Heroku
     dependencies:
       - Build

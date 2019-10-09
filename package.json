@@ -7,7 +7,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles --forceExit --env node --verbose tests"
+    "lint": "gulp lint",
+    "test": "jest --detectOpenHandles --forceExit --env node --verbose tests",
+    "build": "gulp build"
   },
   "author": "",
   "license": "ISC",

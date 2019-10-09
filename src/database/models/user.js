@@ -1,19 +1,29 @@
 const mongoose = require('mongoose');
+const validators = require('mongoose-validators');
 const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
 const PhoneSchema = new Schema({
-  numero: String,
-  ddd: String
+  numero: { type: String, validate: [
+    validators.isNumeric({ message: "o campo {PATH} não é válido" }),
+    validators.isLength({ message: "o campo {PATH} não é válido" }, 8, 9)
+  ]},
+  ddd: { type: String, validate: [
+    validators.isNumeric({ message: "o campo {PATH} não é válido" }),
+    validators.isLength({ message: "o campo {PATH} não é válido" }, 2)
+  ]}
 });
 
 const UserSchema = new Schema({
   id: mongoose.Types.ObjectId,
-  nome: String,
-  email: String,
-  senha: String,
-  phone: String,
-  token: String,
+  nome: { type: String, required: [true, "o campo {PATH} é obrigatório"] },
+  email: {
+    type: String,
+    validate: validators.isEmail({ message: "o campo {PATH} não é válido" }),
+    unique: [true, "o campo {PATH} contém um registro já cadastrado"],
+    required: [true, "o campo {PATH} é obrigatório"]
+  },
+  senha: { type: String, required: [true, "o campo {PATH} é obrigatório"] },
   telefones: [ PhoneSchema ],
   ultimo_login: { type: Date, default: Date.now },
 }, { timestamps: true });

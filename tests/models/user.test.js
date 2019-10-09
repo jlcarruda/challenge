@@ -20,7 +20,7 @@ describe('User', () => {
     await mongoose.disconnect();
   });
 
-  describe('Validation of Password', () => {
+  describe('Password Comparison', () => {
     it('should compare password correctly', async () => {
       let user = new UserModel(mocksUser.user);
       await user.save();
@@ -29,4 +29,29 @@ describe('User', () => {
       expect(isValidPassword).toBeTruthy();
     });
   });
-})
+
+  describe('Record Validation', () =>{
+    [
+      [ 'should reject if password does not exist', mocksUser.user_no_password, "o campo senha é obrigatório"],
+      [ 'should reject if email does not exist', mocksUser.user_no_email, "o campo email é obrigatório"],
+      [ 'should reject if nome does not exist', mocksUser.user_no_nome, "o campo nome é obrigatório"],
+      [ 'should reject if email is invalid', mocksUser.user_invalid_email, "o campo email não é válido"],
+      [ 'should reject if numero is invalid', mocksUser.user_invalid_numero, "o campo numero não é válido"],
+      [ 'should reject if ddd is invalid', mocksUser.user_invalid_ddd, "o campo ddd não é válido"]
+    ].forEach( testArray => {
+      it(testArray[0], async () => {
+        let user = new UserModel(testArray[1]);
+
+        await expect(user.validate()).rejects.toThrow(testArray[2]);
+      });
+    });
+  });
+
+  describe('Record Uniqueness', () => {
+    it('should reject if user has email already registered', async () => {
+      let user = new UserModel(mocksUser.user);
+
+      await expect(user.save()).rejects.toThrow('E11000 duplicate key error');
+    });
+  });
+});

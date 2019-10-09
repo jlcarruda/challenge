@@ -2,7 +2,7 @@
   "name": "concrete-challenge",
   "version": "1.0.0",
   "engines": {
-    "node": "10.15.1"
+    "node": "10.10.0"
   },
   "description": "",
   "main": "index.js",

@@ -7,7 +7,7 @@ const pkg = require('./package');
 exports.lint = () => {
   'use strict';
 
-  return src(['gulpfile.js', 'app.js', 'src/**/*.js'])
+  return src(['gulpfile.js', 'app.js', 'src/**/*.js', 'tests/**/*.js'])
     .pipe(jshint(pkg.jshintConfig))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'));

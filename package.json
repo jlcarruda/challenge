@@ -2,12 +2,12 @@
   "name": "concrete-challenge",
   "version": "1.0.0",
   "engines": {
-    "node": "10.15.1"
+    "node": "10.10.0"
   },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles --forceExit --env node --verbose tests"
   },
   "author": "",
   "license": "ISC",
@@ -16,26 +16,32 @@
     "unused": true
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "dotenv": "^8.1.0",
-    "gulp": "^4.0.2",
     "async": "^3.1.0",
+    "bcrypt": "^3.0.6",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "connect-mongo": "^3.0.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "gulp": "^4.0.2",
     "gulp-jshint": "^2.1.0",
-    "gulp-jslint": "^1.0.10",
+    "jest": "^24.9.0",
+    "jest-cli": "^24.9.0",
     "jshint": "^2.10.2",
     "jshint-stylish": "^2.2.1",
-    "mongoose": "^5.7.3"
+    "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server-global": "^5.2.7",
+    "mongoose": "^5.7.3",
+    "mongoose-validators": "^0.1.0",
+    "supertest": "^4.0.2"
   },
   "devDependencies": {
     "husky": "^3.0.8"
   },
   "husky": {
-    "hooks" : {
-      "pre-commit": "gulp lint"
+    "hooks": {
+      "pre-commit": "gulp lint && yarn test"
     }
   }
 }

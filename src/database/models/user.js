@@ -15,7 +15,6 @@ const PhoneSchema = new Schema({
 });
 
 const UserSchema = new Schema({
-  id: mongoose.Types.ObjectId,
   nome: { type: String, required: [true, "o campo {PATH} é obrigatório"] },
   email: {
     type: String,
@@ -26,6 +25,7 @@ const UserSchema = new Schema({
   senha: { type: String, required: [true, "o campo {PATH} é obrigatório"] },
   telefones: [ PhoneSchema ],
   ultimo_login: { type: Date, default: Date.now },
+  token: String
 }, { timestamps: true });
 
 
@@ -34,14 +34,14 @@ UserSchema.pre('save', function(next) {
 
   bcrypt.hash(this.senha, 10, (err, hash) => {
     if (err) return next(err);
-
     this.senha = hash;
+
     next();
   });
 });
 
 UserSchema.methods.comparePassword = async function(passwordCandidate) {
-  return await bcrypt.compare(passwordCandidate || '', this.senha);
+  return await bcrypt.compare(passwordCandidate, this.senha);
 };
 
 module.exports = mongoose.models.User || mongoose.model('User', UserSchema);

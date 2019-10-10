@@ -7,7 +7,7 @@ module.exports.connect = () => {
   return new Promise((resolve, reject) => {
     getMongoUri().then((uri) => {
       mongoose.Promise = Promise;
-      mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
       const conn = mongoose.connection;
 

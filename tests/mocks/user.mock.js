@@ -7,6 +7,15 @@ module.exports.user = {
   ]
 };
 
+module.exports.user2 = {
+  nome: 'The Choosen Undead',
+  email: 'hardcoregamer@gmail.com',
+  senha: 'gitgud',
+  telefones: [
+    { numero: '123321123', ddd: '81' }
+  ]
+};
+
 module.exports.user_invalid_email = {
   nome: 'Siegmeyer of Catarina',
   email: 'onions_are_good.gmail.com',

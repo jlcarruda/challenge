@@ -13,16 +13,16 @@ Search User: [https://concrete-challenge-node.herokuapp.com/users/:id](https://c
 ### Steps for Local Setup
 Depency Install
 
-  yarn // || npm install
+    yarn // or 'npm install'
 
 Run Tests
 
-    yarn test // || npm test
+    yarn test // or 'npm test'
 
 Run Local Server
 
-  yarn run_server // || npm run run_server
+    yarn run_server // or 'npm run run_server'
 
 Lint
 
-  yarn lint // || npm run lint
+    yarn lint // or 'npm run lint'

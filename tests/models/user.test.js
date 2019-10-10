@@ -28,6 +28,16 @@ describe('User', () => {
       isValidPassword = await user.comparePassword(mocksUser.user.senha);
       expect(isValidPassword).toBeTruthy();
     });
+
+    it('should compare password incorrectly', async () => {
+      await UserModel.deleteMany({});
+      modifiedUser = mocksUser.user;
+      let user = new UserModel(mocksUser.user);
+      await user.save();
+
+      isValidPassword = await user.comparePassword("senha fake");
+      expect(isValidPassword).toBeFalsy();
+    });
   });
 
   describe('Record Validation', () =>{

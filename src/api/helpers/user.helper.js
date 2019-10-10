@@ -1,4 +1,5 @@
 const { generateJwt, verifyJwt } = require('./jwt.helper');
+const { InternalServerError } = require('../errors');
 
 const userSignIn = async (res, user, successCode) => {
   user.ultimo_login = Date.now();
@@ -10,13 +11,17 @@ const userSignIn = async (res, user, successCode) => {
     ultimo_login: user.ultimo_login
   };
 
+  const successResponse = () => {
+    return res.status(successCode || 200).json(responseBody);
+  };
+
   let isVerified = await verifyJwt(user.token);
 
   if (isVerified != false) {
     responseBody.token = user.token;
     await user.save();
 
-    res.status(successCode || 200).json(responseBody);
+    successResponse();
   } else {
     generateJwt({ id: user._id }, '30m').then(token => {
       user.token = token;
@@ -25,7 +30,10 @@ const userSignIn = async (res, user, successCode) => {
     }).then((user) => {
       responseBody.token = user.token;
 
-      res.status(successCode || 200).json(responseBody);
+      successResponse();
+    }).catch(err => {
+      console.log(err);
+      InternalServerError(res);
     });
   }
 };

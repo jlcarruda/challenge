@@ -11,12 +11,18 @@ module.exports.generateJwt = (objectToHash, expiresIn) => {
   });
 };
 
-module.exports.verifyJwt = token => {
+module.exports.verifyJwt = async (token) => {
   return new Promise((resolve, reject) => {
     if (token === undefined) return resolve(false);
     try {
-      let decoded = jwt.verify(token, SECRET);
-      resolve(decoded);
+      jwt.verify(token, SECRET, (err, decoded) => {
+        if (err) {
+          if (err.name == 'TokenExpiredError') return resolve(false);
+          return reject(err);
+        }
+
+        resolve(decoded);
+      });
     } catch(err) {
       reject(err);
     }

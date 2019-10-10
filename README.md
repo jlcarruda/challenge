@@ -11,6 +11,8 @@ Search User: [https://concrete-challenge-node.herokuapp.com/users/:id](https://c
 
 
 ### Steps for Local Setup
+
+#### Server Start
 Depency Install
 
     yarn // or 'npm install'
@@ -26,3 +28,8 @@ Run Local Server
 Lint
 
     yarn lint // or 'npm run lint'
+
+
+#### Extra Observations about local testing
+
+I'm using a MongoDB Memory Server on development and test environment to speedup server bootstrap and connections. (plus my machine's MongoDB local server is bugged :v)   

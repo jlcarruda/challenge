@@ -8,8 +8,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "gulp lint",
-    "test": "jest --detectOpenHandles --forceExit --env node --verbose --testTimeout 10000 tests/**/*.test.js",
-    "run_server": "gulp run"
+    "test": "jest --detectOpenHandles --forceExit --env node --verbose --testTimeout 10000 tests/**/*.test.js"
   },
   "author": "",
   "license": "ISC",

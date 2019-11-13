@@ -1,25 +1,29 @@
 const { MongoMemoryServer } =  require('mongodb-memory-server');
 const mongoose = require('mongoose');
 
-module.exports.connect = () => {
-  "use strict";
+module.exports = (() => {
+  mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+})()
 
-  return new Promise((resolve, reject) => {
-    getMongoUri().then((uri) => {
-      mongoose.Promise = Promise;
-      mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+// module.exports.connect = () => {
+//   "use strict";
 
-      const conn = mongoose.connection;
+//   return new Promise((resolve, reject) => {
+//     getMongoUri().then((uri) => {
+//       mongoose.Promise = Promise;
+//       mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
-      conn.on('error', err => {
-        console.error.bind(console, `Database connection error: ${err.message}`);
-        reject(err);
-      });
+//       const conn = mongoose.connection;
 
-      conn.once('open', resolve);
-    });
-  });
-};
+//       conn.on('error', err => {
+//         console.error.bind(console, `Database connection error: ${err.message}`);
+//         reject(err);
+//       });
+
+//       conn.once('open', resolve);
+//     });
+//   });
+// };
 
 function getMongoUri() {
   return new Promise((resolve, reject) => {
@@ -43,8 +47,8 @@ function startMemoryDatabase() {
   });
 }
 
-module.exports.getMongoUri = getMongoUri;
+// module.exports.getMongoUri = getMongoUri;
 
-if (process.env.NODE_ENV === 'test') {
-  module.exports.startMemoryDatabase = startMemoryDatabase;
-}
+// if (process.env.NODE_ENV === 'test') {
+//   module.exports.startMemoryDatabase = startMemoryDatabase;
+// }
